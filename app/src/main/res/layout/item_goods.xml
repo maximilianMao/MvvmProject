@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.maxi.mvvm.utils.TimeTools" />
+        <variable
+            name="dataBean"
+            type="com.maxi.mvvm.bean.HuoPanListBean" />
+    </data>
+    <LinearLayout
+        android:id="@+id/ll_huopan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="1dp"
+        android:background="#FFF8F7FB"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_area_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{dataBean.departureArea}"
+                android:textSize="14sp"
+                android:textColor="#DE0B0B0B"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginStart="19dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="14dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/ic_arrow_right_m"/>
+
+            <TextView
+                android:id="@+id/tv_area_arrive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{dataBean.arrivalArea}"
+                android:textSize="14sp"
+                android:textColor="#DE0B0B0B"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="6dp" />
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_vip"
+                android:layout_width="16dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/vip_icon"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#FFDEDEDE"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="152dp"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/iv_goods"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:src="@mipmap/tonnage933"
+                android:layout_marginTop="19dp"
+                android:layout_marginStart="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <TextView
+                android:id="@+id/tv_goods_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{"货物名称："+dataBean.goodsName}'
+                android:textSize="14sp"
+                android:textColor="#DE000000"
+                android:layout_marginStart="5dp"
+                app:layout_constraintLeft_toRightOf="@+id/iv_goods"
+                app:layout_constraintTop_toTopOf="@+id/iv_goods"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_goods"/>
+
+            <ImageView
+                android:id="@+id/iv_left"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:src="@mipmap/weight_icon"
+                android:layout_marginTop="13dp"
+                app:layout_constraintTop_toBottomOf="@+id/iv_goods"
+                app:layout_constraintLeft_toLeftOf="@+id/iv_goods"/>
+
+            <LinearLayout
+                android:id="@+id/ll_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toRightOf="@+id/iv_left"
+                app:layout_constraintTop_toTopOf="@+id/iv_left"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="剩余 "
+                    android:textSize="14sp"
+                    android:textColor="#DE000000"
+                    android:layout_marginStart="5dp" />
+
+                <TextView
+                    android:id="@+id/tv_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{dataBean.goodsLaveTonnage}"
+                    android:textSize="14sp"
+                    android:textColor="#FFFE4E5B"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="吨"
+                    android:textSize="14sp"
+                    android:textColor="#DE000000"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_price"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:src="@mipmap/price_icon"
+                android:layout_marginTop="13dp"
+                app:layout_constraintTop_toBottomOf="@+id/iv_left"
+                app:layout_constraintLeft_toLeftOf="@+id/iv_left"/>
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{dataBean.singlePrice == null?"运费单价：面议":"运费单价："+dataBean.singlePrice+ "元/吨"}'
+                android:textSize="14sp"
+                android:textColor="#DE000000"
+                android:layout_marginStart="5dp"
+                app:layout_constraintLeft_toRightOf="@+id/iv_price"
+                app:layout_constraintTop_toTopOf="@+id/iv_price"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_price"/>
+
+            <ImageView
+                android:id="@+id/iv_date"
+                android:layout_width="13dp"
+                android:layout_height="15dp"
+                android:src="@mipmap/time_icon"
+                android:layout_marginTop="13dp"
+                android:paddingTop="2dp"
+                app:layout_constraintTop_toBottomOf="@+id/iv_price"
+                app:layout_constraintLeft_toLeftOf="@+id/iv_price"/>
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{"空载日期：" + TimeTools.formateTrackTime(dataBean.expirationDate) + "±" + dataBean.expirationDateRange + "天"}'
+                android:textSize="14sp"
+                android:textColor="#DE000000"
+                android:layout_marginStart="5dp"
+                app:layout_constraintLeft_toRightOf="@+id/iv_date"
+                app:layout_constraintTop_toTopOf="@+id/iv_date"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_date"/>
+
+            <ImageView
+                android:id="@+id/iv_demand"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:src="@mipmap/boat_icon"
+                android:layout_marginTop="13dp"
+                app:layout_constraintTop_toBottomOf="@+id/iv_date"
+                app:layout_constraintLeft_toLeftOf="@+id/iv_date"/>
+
+            <TextView
+                android:id="@+id/tv_demand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#DE000000"
+                android:layout_marginStart="5dp"
+                app:layout_constraintLeft_toRightOf="@+id/iv_demand"
+                app:layout_constraintTop_toTopOf="@+id/iv_demand"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_demand"/>
+
+            <TextView
+                android:id="@+id/tv_detail"
+                android:layout_width="48dp"
+                android:layout_height="24dp"
+                android:text="详情"
+                android:textSize="12sp"
+                android:textColor="#FF1677FF"
+                android:gravity="center"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/shape_blue_line"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="0dp"
+                android:background="#FFDEDEDE"
+                android:layout_marginRight="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_detail"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4DA9FF</color>
+    <color name="colorPrimaryDark">#4DA9FF</color>
+    <color name="colorAccent">#4DA9FF</color>
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+
+    <color name="bg_loading">#80000000</color>
+    <color name="dialog_waybill_title">#FFFFFF</color>
+    <color name="dialog_waybill_bg">#F8F5F5</color>
+    <color name="bt_splash_into">#EC990B</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="bg_titlebar">#4DA9FF</color>
+    <color name="text_titlebar">#ffffff</color>
+    <color name="view_login_noselect">#A0A39F</color>
+    <color name="view_login_select">#4DA9FF</color>
+
+    <color name="view_split">#DEDEDE</color>
+    <color name="base_bg">#979797</color>
+    <color name="text_left">#333333</color>
+    <color name="text_no_review">#FF442B</color>
+    <color name="text__reviewing">#48DC07</color>
+    <color name="dialog_bg">#B7B4B8</color>
+    <color name="text_color">#1890FF</color>
+    <color name="toast_bg_red">#FF3B30</color>
+    <color name="toast_bg_blue">#ff1890ff</color>
+
+
+    <!--运单状态-->
+    <color name="yun_dan_dai_fa_bu">#FFBA4D</color>
+    <color name="yun_dan_dai_yan_shou">#32D6BD</color>
+    <color name="yun_dan_jin_xing_zhong">#34DD6D</color>
+    <color name="yun_dan_yi_guo_qi">#999999</color>
+    <color name="yun_dan_yi_fa_bu">#FF4DA9FF</color>
+    <color name="yun_dan_yi_wan_cheng">#FF498AFE</color>
+    <color name="yun_dan_yi_ju_jue">#FFFF765B</color>
+
+
+    <!--签到弹窗-->
+    <color name="not_register">#333333</color>
+    <color name="have_register">#C5C2C6</color>
+    <color name="have_register_bg">#EFEFEF</color>
+
+    <color name="ship_bg">#F9F7FC</color>
+</resources>

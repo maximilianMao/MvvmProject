@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.text.Html" />
+        <import type="android.view.View" />
+        <import type="com.maxi.mvvm.utils.TimeTools" />
+
+        <variable
+            name="dataBean"
+            type="com.maxi.mvvm.bean.FindShipBean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingTop="8dp">
+
+        <TextView
+            android:id="@+id/tv_ship_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="19dp"
+            android:text="@{dataBean.transportNumber}"
+            android:textColor="#de0b0b0b"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            tools:text="船舶名称" />
+
+        <TextView
+            android:id="@+id/tv_ship_ton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text='@{Html.fromHtml("&lt;font color=\"#fe4e5b\">" + dataBean.loadingTons + "&lt;/font>吨")}'
+            android:textColor="#de0b0b0b"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/tv_ship_name"
+            tools:text="1000吨" />
+
+        <ImageView
+            android:id="@+id/tv_ship_vip"
+            android:layout_width="16dp"
+            android:layout_height="14dp"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/vip_icon"
+            android:visibility="@{dataBean.isVip == 1?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_ship_ton"
+            app:layout_constraintLeft_toRightOf="@+id/tv_ship_ton"
+            app:layout_constraintTop_toTopOf="@+id/tv_ship_ton" />
+
+        <View
+            android:id="@+id/v_line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="#fff8f7fb"
+            app:layout_constraintTop_toBottomOf="@+id/tv_ship_name" />
+
+        <TextView
+            android:id="@+id/tv_ship_no_load_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="19dp"
+            android:layout_marginTop="15dp"
+            android:drawableLeft="@mipmap/emptyground_icon"
+            android:drawablePadding="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#de000000"
+            android:textSize="14sp"
+            android:text='@{"空载地：" + dataBean.getShipPortName()}'
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v_line1"
+            tools:text="空载地：运河江苏徐州" />
+
+
+        <TextView
+            android:id="@+id/tv_ship_no_load_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="19dp"
+            android:layout_marginTop="6dp"
+            android:drawableLeft="@mipmap/time_icon"
+            android:drawablePadding="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#de000000"
+            android:textSize="14sp"
+            android:text='@{"空载日期：" + TimeTools.formateTrackTime(dataBean.getFreeDate()) + "±" + dataBean.getFloatingDays()}'
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_ship_no_load_place"
+            tools:text="空载日期：2021-09-22±3" />
+
+        <TextView
+            android:id="@+id/tv_ship_info"
+            android:layout_width="48dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="19dp"
+            android:background="@drawable/shape_blue_line"
+            android:gravity="center"
+            android:text="详情"
+            android:textColor="#ff2584fd"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/v_line2"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v_line1"
+            app:layout_constraintTop_toTopOf="@+id/v_line2" />
+
+        <View
+            android:id="@+id/v_line2"
+            android:layout_width="1dp"
+            android:layout_height="102dp"
+            android:layout_marginRight="15dp"
+            android:background="#fff8f7fb"
+            app:layout_constraintRight_toLeftOf="@+id/tv_ship_info"
+            app:layout_constraintTop_toBottomOf="@+id/v_line1" />
+
+        <LinearLayout
+            android:id="@+id/ll_icon_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="19dp"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_ship_no_load_date">
+
+            <TextView
+                android:id="@+id/tv_ship_monitor"
+                android:layout_width="38dp"
+                android:layout_height="19dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/shape_ship_monitor"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="监控"
+                android:textColor="#fffe4e5b"
+                android:textSize="12sp"
+                android:visibility="@{dataBean.cameraIsNull == 1?View.VISIBLE:View.GONE}" />
+
+            <TextView
+                android:id="@+id/tv_ship_gps"
+                android:layout_width="39dp"
+                android:layout_height="19dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/shape_ship_monitor"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="GPS"
+                android:textColor="#fffe4e5b"
+                android:textSize="12sp"
+                android:visibility="@{dataBean.gpsIsNull == 1?View.VISIBLE:View.GONE}" />
+
+            <TextView
+                android:id="@+id/tv_ship_info_complete"
+                android:layout_width="74dp"
+                android:layout_height="19dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/shape_ship_info_complete"
+                android:gravity="center"
+                android:text="信息已完善"
+                android:textColor="#ff00d392"
+                android:textSize="12sp"
+                android:visibility="@{dataBean.completeState == 1?View.VISIBLE:View.GONE}" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#fff8f7fb"
+            app:layout_constraintTop_toBottomOf="@+id/v_line2" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

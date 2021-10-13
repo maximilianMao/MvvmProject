@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="toolbarViewModel"
+            type="com.maxi.mvvm.base.ToolbarViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rl_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ff2584fd">
+
+        <ImageView
+            android:id="@+id/iv_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:src="@mipmap/exit"
+            android:visibility="@{toolbarViewModel.ivExitVisibleObservable}"
+            android:onClick="@{toolbarViewModel.finishOnClick}" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:src="@mipmap/ic_back_white"
+            android:onClick="@{toolbarViewModel.backOnClick}"
+            android:visibility="@{toolbarViewModel.ivBackVisibleObservable}" />
+
+        <TextView
+            android:id="@+id/tv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="50dp"
+            android:paddingRight="10dp"
+            android:gravity="center"
+            android:text="关闭"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:visibility="@{toolbarViewModel.tvCloseVisibleObservable}"
+            android:onClick="@{toolbarViewModel.finishOnClick}"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="#deffffff"
+            android:textSize="17sp"
+            android:text="@{toolbarViewModel.titleText}"/>
+    </RelativeLayout>
+
+</layout>
