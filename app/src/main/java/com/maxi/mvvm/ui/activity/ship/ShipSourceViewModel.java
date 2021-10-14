@@ -4,15 +4,13 @@ import android.app.Application;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
 
-import com.maxi.mvvm.base.ToolbarViewModel;
 import com.maxi.mvvm.bean.FindShipBean;
-import com.maxi.mvvm.common.LoadState;
-import com.maxi.mvvm.http.BaseConsumer;
-import com.maxi.mvvm.http.BaseOnErrorConsumer;
+import com.maxi.mvvm.base.ToolbarViewModel;
+import com.maxi.mvvm.http.BaseObserver;
 import com.maxi.mvvm.http.DataManager;
 import com.maxi.mvvm.http.ExceptionTypeAHandler;
+import com.maxi.mvvm.http.HttpLiveData;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,13 +24,13 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class ShipSourceViewModel extends ToolbarViewModel {
 
-    private MutableLiveData<FindShipBean> datas = new MutableLiveData<FindShipBean>();
+    private HttpLiveData<FindShipBean> datas = new HttpLiveData<FindShipBean>();
 
     public ShipSourceViewModel(@NonNull @NotNull Application application) {
         super(application);
     }
 
-    public MutableLiveData<FindShipBean> getDatas() {
+    public HttpLiveData<FindShipBean> getDatas() {
         return datas;
     }
 
@@ -42,23 +40,23 @@ public class ShipSourceViewModel extends ToolbarViewModel {
     }
 
     public void getShipDetail(String shipId) {
-        addSubscribe(DataManager.getFindShip("", "", shipId, 99999, 1)
+        DataManager.getFindShip("", "", shipId, 99999, 1)
                 .map(new ExceptionTypeAHandler<List<FindShipBean>>())
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(this)//请求与ViewModel周期同步
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseConsumer<List<FindShipBean>>() {
+                .subscribe(new BaseObserver<List<FindShipBean>>(datas) {
 
                     @Override
-                    public void success(List<FindShipBean> baseResp) {
-                        loadState.setValue(LoadState.SUCCESS);
-                        datas.setValue(baseResp.get(0));
+                    public void onSuccess(@NotNull List<FindShipBean> findShipBeans) {
+                        datas.setSuccess(findShipBeans.get(0));
                     }
-                }, new BaseOnErrorConsumer() {
+
                     @Override
                     public void showError(String msg) {
+                        datas.setError(msg);
                         toastMsg.setValue(msg);
                     }
-                }));
+                });
     }
 }

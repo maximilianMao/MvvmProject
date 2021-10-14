@@ -1,5 +1,6 @@
 package com.maxi.mvvm.ui.activity.ship;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +11,13 @@ import androidx.lifecycle.Observer;
 
 import com.chad.library.BR;
 import com.maxi.mvvm.R;
-import com.maxi.mvvm.base.BaseActivity;
 import com.maxi.mvvm.bean.FindShipBean;
 import com.maxi.mvvm.databinding.ActivityShipSourceBinding;
 import com.maxi.mvvm.utils.TimeTools;
+import com.maxi.mvvm.base.BaseActivity;
+import com.maxi.mvvm.http.HttpLiveData;
+import com.maxi.mvvm.http.HttpObserve;
+import com.maxi.mvvm.ui.activity.main.MainViewModel;
 
 import java.io.Serializable;
 
@@ -52,9 +56,9 @@ public class ShipSourceActivity extends BaseActivity<ActivityShipSourceBinding, 
             binding.setDataBean(datas = (FindShipBean) intent.getSerializableExtra(EXTRA_KEY_DATAS));
             setInitData(datas);
         }
-        viewModel.getDatas().observe(this, new Observer<FindShipBean>() {
+        viewModel.getDatas().observe(this, new HttpObserve<FindShipBean>() {
             @Override
-            public void onChanged(FindShipBean findShipBean) {
+            public void onSuccess(FindShipBean findShipBean) {
                 binding.setDataBean(findShipBean);
                 setInitData(findShipBean);
             }

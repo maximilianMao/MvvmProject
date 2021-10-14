@@ -10,6 +10,8 @@ import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.maxi.mvvm.R;
 import com.maxi.mvvm.bean.FindShipBean;
+import com.maxi.mvvm.bean.HuoPanListBean;
+import com.maxi.mvvm.databinding.ItemGoodsBinding;
 import com.maxi.mvvm.databinding.ItemShipsBinding;
 import com.maxi.mvvm.ui.activity.ship.ShipSourceActivity;
 

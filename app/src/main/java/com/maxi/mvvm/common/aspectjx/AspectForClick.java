@@ -17,7 +17,7 @@ public class AspectForClick {
 
     private boolean allowDoubleClick = false;
 
-    @Before("execution(@com.oceangreate.df.datav.common.aspectjx.AllowDoubleClick * *(..))")
+    @Before("execution(@com.maxi.mvvm.common.aspectjx.AllowDoubleClick * *(..))")
     public void beforeEnableDoubleClick(JoinPoint joinPoint) throws Throwable {
         allowDoubleClick = true;
     }

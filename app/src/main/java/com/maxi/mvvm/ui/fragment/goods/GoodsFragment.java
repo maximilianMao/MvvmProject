@@ -1,16 +1,21 @@
 package com.maxi.mvvm.ui.fragment.goods;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.maxi.mvvm.BR;
 import com.maxi.mvvm.R;
 import com.maxi.mvvm.base.BaseFragment;
+import com.maxi.mvvm.bean.HuoPanListBean;
+import com.maxi.mvvm.common.aspectjx.AllowDoubleClick;
 import com.maxi.mvvm.databinding.FragmentHuopanBinding;
 import com.maxi.mvvm.ui.adapter.GoodsRVAdapter;
 

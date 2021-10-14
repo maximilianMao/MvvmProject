@@ -10,8 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.maxi.mvvm.R;
 import com.maxi.mvvm.common.LoadState;
-import com.maxi.mvvm.http.BaseConsumer;
-import com.maxi.mvvm.http.BaseOnErrorConsumer;
+import com.maxi.mvvm.http.BaseObserver;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import org.jetbrains.annotations.NotNull;
@@ -76,75 +75,80 @@ public abstract class BaseRefreshLoadViewModel<T> extends ToolbarViewModel {
             }
             loadStatus.setValue(LoadMoreNoDataStatus.REFRESH_RESET_NO_MORE_DATA);
         }
-        addSubscribe(
-                disposable = setHttpApi(pullToRefresh)
-                        .subscribeOn(Schedulers.io())
-                        .doOnSubscribe(this)//请求与ViewModel周期同步
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new BaseConsumer<List<T>>() {
 
-                            @Override
-                            public void success(List<T> baseResp) {
-                                loadState.postValue(LoadState.SUCCESS);
-                                /*
-                                 *刷新 清空数据
-                                 */
-                                if (pullToRefresh) {
-                                    /*
-                                     *  下拉刷新
-                                     */
-                                    getAdapter().setList(baseResp);
-                                    if (refreshLayout != null) {
-                                        refreshLayout.finishRefresh();
-                                    }
-                                    loadStatus.setValue(LoadMoreNoDataStatus.DROP_DOWN_REFRESH);
-                                } else {
-                                    /*
-                                     *  加载数据
-                                     */
-                                    getAdapter().addData(baseResp);
-                                    if (refreshLayout != null) {
-                                        refreshLayout.finishLoadMore();
-                                    }
-                                    loadStatus.setValue(LoadMoreNoDataStatus.PULL_UP_LOADING);
-                                }
+        setHttpApi(pullToRefresh)
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(this)//请求与ViewModel周期同步
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<List<T>>() {
+                    @Override
+                    public void onSuccess(@NotNull List<T> baseResp) {
+                        loadState.postValue(LoadState.SUCCESS);
+                        /*
+                         *刷新 清空数据
+                         */
+                        if (pullToRefresh) {
+                            /*
+                             *  下拉刷新
+                             */
+                            getAdapter().setList(baseResp);
+                            if (refreshLayout != null) {
+                                refreshLayout.finishRefresh();
                             }
-                        }, new BaseOnErrorConsumer() {
-                            @Override
-                            public void showError(String msg) {
-                                if (pullToRefresh) {
-                                    if (refreshLayout != null) {
-                                        refreshLayout.finishRefresh();
-                                    }
-                                    loadStatus.setValue(LoadMoreNoDataStatus.DROP_DOWN_REFRESH);
-                                    loadState.postValue(LoadState.ERROR);
-                                    errorMsg.set(msg);
-                                } else {
-                                    if (refreshLayout != null) {
-                                        refreshLayout.finishLoadMore();
-                                    }
-                                    loadStatus.setValue(LoadMoreNoDataStatus.PULL_UP_LOADING);
-                                    toastMsg.setValue(msg);
-                                }
+                            loadStatus.setValue(LoadMoreNoDataStatus.DROP_DOWN_REFRESH);
+                        } else {
+                            /*
+                             *  加载数据
+                             */
+                            getAdapter().addData(baseResp);
+                            if (refreshLayout != null) {
+                                refreshLayout.finishLoadMore();
                             }
+                            loadStatus.setValue(LoadMoreNoDataStatus.PULL_UP_LOADING);
+                        }
+                    }
 
-                            @Override
-                            public void showEmptyError(String msg) {
-                                loadState.postValue(LoadState.SUCCESS);
-                                /*
-                                 * 刷新过后如果没有数据 显示 空布局
-                                 */
-                                if (pullToRefresh) {
-                                    getAdapter().getData().clear();
-                                    getAdapter().notifyDataSetChanged();
-                                } else {
-                                    if (refreshLayout != null) {
-                                        refreshLayout.finishLoadMoreWithNoMoreData();
-                                    }
-                                    loadStatus.setValue(LoadMoreNoDataStatus.LOAD_MORE_WITH_NO_MORE_DATA);
-                                }
+                    @Override
+                    public void showError(String msg) {
+                        if (pullToRefresh) {
+                            if (refreshLayout != null) {
+                                refreshLayout.finishRefresh();
                             }
-                        }));
+                            loadStatus.setValue(LoadMoreNoDataStatus.DROP_DOWN_REFRESH);
+                            loadState.postValue(LoadState.ERROR);
+                            errorMsg.set(msg);
+                        } else {
+                            if (refreshLayout != null) {
+                                refreshLayout.finishLoadMore();
+                            }
+                            loadStatus.setValue(LoadMoreNoDataStatus.PULL_UP_LOADING);
+                            toastMsg.setValue(msg);
+                        }
+                    }
+
+                    @Override
+                    public void showEmptyError(String msg) {
+                        loadState.postValue(LoadState.SUCCESS);
+                        /*
+                         * 刷新过后如果没有数据 显示 空布局
+                         */
+                        if (pullToRefresh) {
+                            getAdapter().getData().clear();
+                            getAdapter().notifyDataSetChanged();
+                        } else {
+                            if (refreshLayout != null) {
+                                refreshLayout.finishLoadMoreWithNoMoreData();
+                            }
+                            loadStatus.setValue(LoadMoreNoDataStatus.LOAD_MORE_WITH_NO_MORE_DATA);
+                        }
+                    }
+
+                    @Override
+                    public void onSubscribe(@NotNull Disposable d) {
+                        super.onSubscribe(d);
+                        disposable = d;
+                    }
+                });
     }
 
     @Override

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.multidex.MultiDexApplication;
 
+import com.maxi.mvvm.base.AppManager;
+
 /**
  * Created by maxi on 2021/9/3.
  */
